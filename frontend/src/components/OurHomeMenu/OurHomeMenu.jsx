@@ -13,7 +13,7 @@ const OurHomeMenu = () => {
     const [menuData, setMenuData] = useState({})
 
     useEffect(() => {
-        axios.get('http://localhost:4000/api/items').then(res => {
+        axios.get('https://food-ordering-system-backend-qlrh.onrender.com/api/items').then(res => {
             const grouped = res.data.reduce((acc, item) => {
                 acc[item.category] = acc[item.category] || []
                 acc[item.category].push(item)

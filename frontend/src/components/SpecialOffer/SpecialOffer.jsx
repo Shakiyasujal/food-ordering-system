@@ -13,7 +13,7 @@ const SpecialOffer = () => {
 
     //fetch menu
     useEffect(() => {
-        axios.get('http://localhost:4000/api/items').then(res => setItems(res.data.items ?? res.data))
+        axios.get('https://food-ordering-system-backend-qlrh.onrender.com/api/items').then(res => setItems(res.data.items ?? res.data))
             .catch(err => console.error(err))
     }, [])
 

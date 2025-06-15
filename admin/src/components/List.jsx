@@ -11,7 +11,7 @@ const List = () => {
     useEffect(() => {
         const fetchItems = async () => {
             try {
-                const { data } = await axios.get(`http://localhost:4000/api/items`)
+                const { data } = await axios.get(`https://food-ordering-system-backend-qlrh.onrender.com/api/items`)
                 setItems(data)
             } catch (error) {
                 console.error('Error fetching items:', error)
@@ -27,7 +27,7 @@ const List = () => {
         if (!window.confirm('Are you sure you want to delete this item?'))
             return
         try {
-            await axios.delete(`http://localhost:4000/api/items/${itemId}`)
+            await axios.delete(`https://food-ordering-system-backend-qlrh.onrender.com/api/items/${itemId}`)
             setItems(prev => prev.filter(item => item._id !== itemId))
             console.log('Deleted item ID:', itemId)
         } catch (error) {
