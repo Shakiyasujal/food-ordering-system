@@ -54,7 +54,7 @@ const AddItems = () => {
             })
 
             const res = await axios.post(
-                'http://localhost:4000/api/items',
+                'https://food-ordering-system-backend-0o7i.onrender.com/api/items',
                 payload,
                 {
                     headers: {

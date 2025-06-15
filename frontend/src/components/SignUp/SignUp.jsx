@@ -3,7 +3,7 @@ import { FaCheckCircle, FaEye, FaEyeSlash, FaArrowLeft, FaExclamationCircle } fr
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
-const url = 'http://localhost:4000'
+const url = 'https://food-ordering-system-backend-0o7i.onrender.com'
 
 const AwesomeToast = ({ message, icon }) => {
     return (
