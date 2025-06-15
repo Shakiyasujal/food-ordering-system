@@ -52,7 +52,7 @@ export const CartProvider = ({ children }) => {
     // Hydrate cart from backend ONLY if data is not empty
     useEffect(() => {
         const token = localStorage.getItem('authToken')
-        axios.get('https://food-ordering-system-backend-0o7i.onrender.com/api/cart', {
+        axios.get('http://localhost:4000/api/cart', {
             withCredentials: true,
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -74,7 +74,7 @@ export const CartProvider = ({ children }) => {
     const addToCart = useCallback(async (item, qty) => {
         const token = localStorage.getItem('authToken')
         const res = await axios.post(
-            'https://food-ordering-system-backend-0o7i.onrender.com/api/cart',
+            'http://localhost:4000/api/cart',
             { itemId: item._id, quantity: qty },
             {
                 withCredentials: true,
@@ -87,7 +87,7 @@ export const CartProvider = ({ children }) => {
     // Remove from cart
     const removeFromCart = useCallback(async (_id) => {
         const token = localStorage.getItem('authToken')
-        await axios.delete(`https://food-ordering-system-backend-0o7i.onrender.com/api/cart/${_id}`, {
+        await axios.delete(`http://localhost:4000/api/cart/${_id}`, {
             withCredentials: true,
             headers: { Authorization: `Bearer ${token}` }
         })
@@ -98,7 +98,7 @@ export const CartProvider = ({ children }) => {
     const updateQuantity = useCallback(async (_id, qty) => {
         const token = localStorage.getItem('authToken')
         const res = await axios.put(
-            `https://food-ordering-system-backend-0o7i.onrender.com/api/cart/${_id}`,
+            `http://localhost:4000/api/cart/${_id}`,
             { quantity: qty },
             {
                 withCredentials: true,
@@ -112,7 +112,7 @@ export const CartProvider = ({ children }) => {
     const clearCart = useCallback(async () => {
         const token = localStorage.getItem('authToken')
         await axios.post(
-            'https://food-ordering-system-backend-0o7i.onrender.com/api/cart/clear',
+            'http://localhost:4000/api/cart/clear',
             {},
             {
                 withCredentials: true,

@@ -46,7 +46,7 @@ const Checkout = () => {
             setLoading(true)
 
             if (paymentStatus === 'success' && sessionId) {
-                axios.post('https://food-ordering-system-backend-0o7i.onrender.com/api/orders/confirm',
+                axios.post('http://localhost:4000/api/orders/confirm',
                     { sessionId },
                     { headers: authHeaders })
                     .then(({ data }) => {
@@ -94,7 +94,7 @@ const Checkout = () => {
 
         try {
             const { data } = await axios.post(
-                'https://food-ordering-system-backend-0o7i.onrender.com/api/orders',
+                'http://localhost:4000/api/orders',
                 payload,
                 { headers: authHeaders }
             )

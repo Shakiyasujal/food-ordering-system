@@ -16,7 +16,7 @@ const MyOrder = () => {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const response = await axios.get('https://food-ordering-system-backend-0o7i.onrender.com/api/orders', {
+                const response = await axios.get('http://localhost:4000/api/orders', {
                     params: { email: user?.email },
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('authToken')}`
@@ -198,7 +198,7 @@ const MyOrder = () => {
                                                     <div className='space-y-2'>
                                                         {order.items.map((item, index) => (
                                                             <div key={index} className='flex items-center gap-3 p-2 bg-[#3a2b2b]/50 rounded-lg'>
-                                                                <img src={`https://food-ordering-system-backend-0o7i.onrender.com${item.item.imageUrl}`} alt={item.item.name} className='w-10 h-10 object-cover rounded-lg' />
+                                                                <img src={`http://localhost:4000${item.item.imageUrl}`} alt={item.item.name} className='w-10 h-10 object-cover rounded-lg' />
                                                                 <div className='flex-1'>
                                                                     <span className='text-amber-100/80 text-sm block'>{item.item.name}</span>
                                                                     <div className='flex items-center gap-2 text-xs text-amber-400/60'>

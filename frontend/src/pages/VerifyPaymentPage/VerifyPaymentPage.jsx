@@ -29,7 +29,7 @@ const VerifyPaymentPage = () => {
             }
 
             try {
-                await axios.get('https://food-ordering-system-backend-0o7i.onrender.com/api/orders/confirm', {
+                await axios.get('http://localhost:4000/api/orders/confirm', {
                     params: { session_id },
                     headers
                 })

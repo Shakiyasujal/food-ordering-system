@@ -12,7 +12,7 @@ const Order = () => {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const response = await axios.get('https://food-ordering-system-backend-0o7i.onrender.com/api/orders/getall', {
+                const response = await axios.get('http://localhost:4000/api/orders/getall', {
                     headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
                 })
 
@@ -64,7 +64,7 @@ const Order = () => {
 
     const handleStatusChange = async (orderId, newStatus) => {
         try {
-            await axios.put(`https://food-ordering-system-backend-0o7i.onrender.com/api/orders/getall/${orderId}`, { status: newStatus })
+            await axios.put(`http://localhost:4000/api/orders/getall/${orderId}`, { status: newStatus })
             setOrders(orders.map(o => (o._id === orderId ? { ...o, status: newStatus } : o)))
         } catch (error) {
             alert(error.response?.data?.message || 'Failed to update order status')
@@ -92,7 +92,7 @@ const Order = () => {
                 {mostBoughtItem && (
                     <div className="mb-10 p-6 bg-yellow-900 bg-opacity-80 rounded-lg shadow-lg text-amber-300 flex items-center gap-6 max-w-md mx-auto">
                         <img
-                            src={`https://food-ordering-system-backend-0o7i.onrender.com${mostBoughtItem.imageUrl}`}
+                            src={`http://localhost:4000${mostBoughtItem.imageUrl}`}
                             alt={mostBoughtItem.name}
                             className="w-24 h-24 object-cover rounded-lg border-2 border-amber-400"
                         />
@@ -173,7 +173,7 @@ const Order = () => {
                                                     {order.items.map((itm, idx) => (
                                                         <div key={idx} className="flex items-center gap-3 p-2 rounded-lg">
                                                             <img
-                                                                src={`https://food-ordering-system-backend-0o7i.onrender.com${itm.item.imageUrl}`}
+                                                                src={`http://localhost:4000${itm.item.imageUrl}`}
                                                                 alt={itm.item.name}
                                                                 className="w-10 h-10 object-cover rounded-lg"
                                                             />
