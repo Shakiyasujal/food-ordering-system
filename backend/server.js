@@ -18,7 +18,7 @@ const __dirname = path.dirname(__filename)
 // Middleware
 app.use(cors({
     origin: (origin, callback) => {
-        const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174']  // Fixed variable name
+        const allowedOrigins = ['https://food-ordering-system-frontend-eqyo.onrender.com', 'https://food-ordering-system-admin.onrender.com']  // Fixed variable name
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true)
         }
