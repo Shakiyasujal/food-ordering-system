@@ -8,7 +8,7 @@ Features
 - View categorized food menus (Starters, Mains, Desserts, etc.)
 - Add/remove items from the cart
 - View order summary with total price
-- Checkout functionality (with mock or actual payment integration)
+- Checkout functionality (Payment Integration using Stripe)
 - Filter or search food items
 - Admin panel for managing menu (if applicable)
 - Fully responsive UI
