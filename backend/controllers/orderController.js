@@ -6,7 +6,6 @@ import 'dotenv/config'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
-//create order function
 export const createOrder = async (req, res) => {
     try {
         const {
@@ -43,7 +42,7 @@ export const createOrder = async (req, res) => {
 
                 line_items: orderItems.map(o => ({
                     price_data: {
-                        currency: 'usd', // Fixed currency - 'rs' is not valid
+                        currency: 'usd',
                         product_data: { name: o.item.name },
                         unit_amount: Math.round(o.item.price * 100)
                     },
@@ -58,7 +57,7 @@ export const createOrder = async (req, res) => {
             newOrder = new Order({
                 user: req.user._id,
                 firstName, lastName, phone, email, address, city, paymentMethod,
-                subtotal, // Fixed typo: was subTotal, should be subtotal
+                subtotal,
                 tax, total, shipping: shippingCost, items: orderItems,
                 paymentIntendId: session.payment_intent,
                 sessionId: session.id,
@@ -75,7 +74,7 @@ export const createOrder = async (req, res) => {
         newOrder = new Order({
             user: req.user._id,
             firstName, lastName, phone, email, address, city, paymentMethod,
-            subtotal, // Fixed typo: was subTotal, should be subtotal
+            subtotal,
             tax, total, shipping: shippingCost, items: orderItems,
             paymentStatus: 'succeeded'
         })
@@ -83,7 +82,7 @@ export const createOrder = async (req, res) => {
         await newOrder.save()
         for (const { item, quantity } of orderItems) {
             await itemModel.findOneAndUpdate(
-                { name: item.name }, // or use item._id if stored
+                { name: item.name },
                 { $inc: { totalSold: quantity } }
             )
         }
@@ -278,9 +277,60 @@ export const updateOrder = async (req, res) => {
         const updated = await Order.findByIdAndUpdate(req.params.id, req.body, { new: true })
         res.json(updated)
     } catch (error) {
-        console.error('updateOrder Error:', error) // Fixed error message
+        console.error('updateOrder Error:', error)
         res.status(500).json({
             message: 'Server Error', error: error.message
         })
     }
 }
+
+
+export const getTopOrderedItems = async (req, res) => {
+    try {
+        const orders = await Order.find({}).lean();
+
+        const itemCountMap = new Map();
+
+        // Step 1: Count quantities by item name
+        for (const order of orders) {
+            for (const { item, quantity } of order.items) {
+                const key = item.name;
+                const existing = itemCountMap.get(key) || { name: item.name, total: 0 };
+                itemCountMap.set(key, {
+                    name: item.name,
+                    total: existing.total + quantity
+                });
+            }
+        }
+        // Step 2: Fetch full item details from itemModel
+        const allItems = await itemModel.find({}).lean();
+        const host = `${req.protocol}://${req.get('host')}`;
+
+        const enrichedItems = Array.from(itemCountMap.entries())
+            .map(([name, data]) => {
+                const fullItem = allItems.find(i => i.name === name);
+                if (!fullItem) return null;
+
+                return {
+                    _id: fullItem._id,
+                    name: fullItem.name,
+                    price: fullItem.price,
+                    imageUrl: fullItem.imageUrl ? host + fullItem.imageUrl : '',
+                    total: data.total
+                };
+            })
+            .filter(Boolean)
+            .sort((a, b) => b.total - a.total)
+            .slice(0, 5);
+
+        res.json(enrichedItems);
+    } catch (error) {
+        console.error('getTopOrderedItems Error:', error);
+        res.status(500).json({
+            message: 'Server Error', error: error.message
+        });
+    }
+};
+
+
+

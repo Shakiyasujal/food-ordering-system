@@ -13,9 +13,11 @@ const SpecialOffer = () => {
 
     //fetch menu
     useEffect(() => {
-        axios.get('https://food-ordering-system-backend-qlrh.onrender.com/api/items').then(res => setItems(res.data.items ?? res.data))
-            .catch(err => console.error(err))
-    }, [])
+        axios.get('http://localhost:4000/api/orders/top-items')
+            .then(res => setItems(res.data))
+            .catch(err => console.error(err));
+    }, []);
+
 
     const displayList = Array.isArray(items) ? items.slice(0, showAll ? 8 : 4) : []
 
@@ -25,13 +27,14 @@ const SpecialOffer = () => {
             <div className='max-w-7xl mx-auto'>
                 <div className='text-center mb-14'>
                     <h1 className='text-5xl font-bold mb-4 transform transition-all bg-gradient-to-r from-amber-400
-                    to-orange-500 bg-clip-text text-transparent font-[PlayFair_Display] italic'>
-                        New <span className='text-stroke-gold'>On the Menu</span>
+                         to-orange-500 bg-clip-text text-transparent font-[PlayFair_Display] italic'>
+                        Most <span className='text-stroke-gold'>Ordered Items</span>
                     </h1>
                     <p className='text-lg text-gray-300 max-w-3xl mx-auto tracking-wide leading-relaxed'>
-                        Discover what's hot and loved by everyone on the menu right now.
+                        These are the all-time favorites that our customers can’t get enough of. Check out what’s topping the order charts!
                     </p>
                 </div>
+
 
                 {/* product card */}
                 <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8'>

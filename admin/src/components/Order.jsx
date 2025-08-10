@@ -7,12 +7,11 @@ const Order = () => {
     const [orders, setOrders] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
-    const [mostBoughtItem, setMostBoughtItem] = useState(null)
 
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const response = await axios.get('https://food-ordering-system-backend-qlrh.onrender.com/api/orders/getall', {
+                const response = await axios.get('http://localhost:4000/api/orders/getall', {
                     headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
                 })
 
@@ -34,25 +33,6 @@ const Order = () => {
 
                 setOrders(formatted)
                 setError(null)
-
-                // Calculate the most bought item
-                const itemCountMap = {}
-                formatted.forEach(order => {
-                    order.items.forEach(({ item, quantity }) => {
-                        if (!itemCountMap[item._id]) itemCountMap[item._id] = { item, quantity: 0 }
-                        itemCountMap[item._id].quantity += quantity
-                    })
-                })
-
-                let maxItem = null
-                let maxQuantity = 0
-                for (const key in itemCountMap) {
-                    if (itemCountMap[key].quantity > maxQuantity) {
-                        maxQuantity = itemCountMap[key].quantity
-                        maxItem = itemCountMap[key].item
-                    }
-                }
-                setMostBoughtItem(maxItem)
             } catch (err) {
                 setError(err.response?.data?.message || 'Failed to load orders.')
             } finally {
@@ -64,7 +44,7 @@ const Order = () => {
 
     const handleStatusChange = async (orderId, newStatus) => {
         try {
-            await axios.put(`https://food-ordering-system-backend-qlrh.onrender.com/api/orders/getall/${orderId}`, { status: newStatus })
+            await axios.put(`http://localhost:4000/api/orders/getall/${orderId}`, { status: newStatus })
             setOrders(orders.map(o => (o._id === orderId ? { ...o, status: newStatus } : o)))
         } catch (error) {
             alert(error.response?.data?.message || 'Failed to update order status')
@@ -88,23 +68,6 @@ const Order = () => {
     return (
         <div className={layoutClasses.page}>
             <div className="mx-auto max-w-7xl">
-                {/* Special Offer Section */}
-                {mostBoughtItem && (
-                    <div className="mb-10 p-6 bg-yellow-900 bg-opacity-80 rounded-lg shadow-lg text-amber-300 flex items-center gap-6 max-w-md mx-auto">
-                        <img
-                            src={`https://food-ordering-system-backend-qlrh.onrender.com${mostBoughtItem.imageUrl}`}
-                            alt={mostBoughtItem.name}
-                            className="w-24 h-24 object-cover rounded-lg border-2 border-amber-400"
-                        />
-                        <div>
-                            <h3 className="text-2xl font-bold mb-1">Special Offer</h3>
-                            <p className="text-lg">{mostBoughtItem.name}</p>
-                            <p className="text-amber-400 font-semibold">
-                                Rs {Number(mostBoughtItem.price).toFixed(2)}
-                            </p>
-                        </div>
-                    </div>
-                )}
 
                 <div className={layoutClasses.card}>
                     <h2 className={layoutClasses.heading}>Order Management</h2>
@@ -173,7 +136,7 @@ const Order = () => {
                                                     {order.items.map((itm, idx) => (
                                                         <div key={idx} className="flex items-center gap-3 p-2 rounded-lg">
                                                             <img
-                                                                src={`https://food-ordering-system-backend-qlrh.onrender.com${itm.item.imageUrl}`}
+                                                                src={`http://localhost:4000${itm.item.imageUrl}`}
                                                                 alt={itm.item.name}
                                                                 className="w-10 h-10 object-cover rounded-lg"
                                                             />

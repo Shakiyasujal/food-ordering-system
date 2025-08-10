@@ -3,9 +3,9 @@ import itemModel from '../models/itemModel.js'
 export const createItem = async (req, res, next) => {
     try {
         const { name, description, category, price, rating, hearts, quantity = 1 } = req.body;
-        const imageUrl = req.file ? `/uploads/${req.file.filename}` : ''; // Fixed variable name
+        const imageUrl = req.file ? `/uploads/${req.file.filename}` : '';
 
-        const total = Number(price) * Number(quantity); // Fixed: replaced 'i' with 'quantity'
+        const total = Number(price) * Number(quantity);
 
         const newItem = new itemModel({
             name,
@@ -14,7 +14,7 @@ export const createItem = async (req, res, next) => {
             price: Number(price),
             rating: Number(rating),
             hearts: Number(hearts),
-            imageUrl,  // Now correctly assigned
+            imageUrl,
             total,
             quantity: Number(quantity)
         });
@@ -46,7 +46,7 @@ export const getItems = async (req, res, next) => {
 
         res.json(withFullUrl);
     } catch (error) {
-        next(error); // Fixed: changed 'err' to 'error'
+        next(error);
     }
 }
 

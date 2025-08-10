@@ -11,7 +11,7 @@ const List = () => {
     useEffect(() => {
         const fetchItems = async () => {
             try {
-                const { data } = await axios.get(`https://food-ordering-system-backend-qlrh.onrender.com/api/items`)
+                const { data } = await axios.get(`http://localhost:4000/api/items`)
                 setItems(data)
             } catch (error) {
                 console.error('Error fetching items:', error)
